@@ -9,20 +9,20 @@ import Cookies from "js-cookie";
 // const NotFound = () => import("@/views/NotFound.vue");
 
 const routes = [
-  //   { path: "/", name: "home", component: Home },
+  { path: "/", name: "home", component: Home },
   {
     path: "/ultrasecretitoescondiditosimeencuentrassosgay",
     name: "login",
     component: Login,
   },
-  { path: "/home", component: Home, name: "home" },
+  { path: "/home", name: "home-alt", redirect: { name: "home" } },
   {
     path: "/admin",
     name: "admin",
     component: Admin,
     meta: { requiresAuth: true },
   },
-  //   { path: "/:pathMatch(.*)*", name: "not-found", component: NotFound },
+  { path: "/:pathMatch(.*)*", redirect: { name: "home" } },
 ];
 
 const router = createRouter({
