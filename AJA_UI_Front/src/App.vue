@@ -7,12 +7,22 @@
   <router-view />
 </template>
 
-<style scoped>
+<style>
 /* Opcional: fondo claro para que veas algo */
 :host,
 :global(body) {
   background: #f5f5f5;
   color: #222;
   font-family: system-ui, sans-serif;
+}
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
 }
 </style>

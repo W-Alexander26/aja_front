@@ -56,7 +56,8 @@ async function log() {
     );
 
     Swal.fire("Éxito", "Sesión iniciada correctamente", "success");
-    Cookies.set("token", response.token);
+    // console.log(response);
+    Cookies.set("token", response.accessToken);
     router.push("/admin");
   } catch (error) {
     Swal.fire("Error", "Error al iniciar sesión", "error");
