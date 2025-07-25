@@ -148,12 +148,12 @@
 .intro-section h1 {
   font-size: 3rem;
   color: #3b82f6;
-  margin-bottom: 20px;
+  margin-bottom: 5vh;
 }
 
 .intro-section p {
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0 auto 60px;
   font-size: 1.1rem;
   color: #4b5563;
 }
@@ -170,21 +170,22 @@
 
 .about-section p {
   max-width: 600px;
-  margin: 0 auto 40px;
+  margin: 0 auto 12vh;
   color: #4b5563;
 }
 
 .cards-container {
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: 10vw;
   flex-wrap: wrap;
+  margin-bottom: 10vh;
 }
 
 .card {
   background-color: white;
   padding: 30px;
-  max-width: 350px;
+  max-width: 550px;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   text-align: left;
@@ -248,13 +249,14 @@
 
 .contact-section h2 {
   font-size: 2.5rem;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .contact-section p {
-  max-width: 600px;
-  margin: 0 auto 30px;
+  max-width: 800px;
+  margin: 0 auto 40px;
   color: #4b5563;
+  
 }
 
 .contact-info {
