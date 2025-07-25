@@ -80,8 +80,8 @@
         Construyamos algo increíble juntos.
       </p>
       <div class="contact-info">
-        <div><i class="fas fa-phone-alt"></i> +506 6472 1064</div>
         <div><i class="fas fa-envelope"></i> ajacompany2025@gmail.com</div>
+        <div><i class="fas fa-phone-alt"></i> +506 6472 1064</div>
       </div>
     </section>
 
@@ -214,6 +214,7 @@
   justify-content: center;
   gap: 60px;
   flex-wrap: wrap;
+  margin-bottom: 60px;
 }
 
 .member {
@@ -244,7 +245,7 @@
 /* Contacto */
 .contact-section {
   background-color: white;
-  /* padding: 80px 20px; */
+  padding: 2vw 20px 2vw 5px;
 }
 
 .contact-section h2 {
@@ -253,16 +254,16 @@
 }
 
 .contact-section p {
-  max-width: 800px;
+  max-width: 18vw;
   margin: 0 auto 40px;
   color: #4b5563;
-  
 }
 
 .contact-info {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  gap: 40px;
+  gap: 5px;
   flex-wrap: wrap;
   font-size: 1rem;
 }
