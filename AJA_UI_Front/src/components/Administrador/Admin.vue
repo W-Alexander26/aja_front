@@ -92,7 +92,7 @@ function logout() {
     "Has salido del panel de administración",
     "success"
   );
-  Cookies.remove("UTC");
+  Cookies.remove("token");
   router.push("/home");
 }
 </script>
