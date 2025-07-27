@@ -412,6 +412,7 @@ export default {
             font-size: 2.5rem;
             margin-bottom: 8px;
         }
+        
 
         .project-info {
             padding: 24px;

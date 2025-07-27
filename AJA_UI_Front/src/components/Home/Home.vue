@@ -80,8 +80,8 @@
         Construyamos algo increíble juntos.
       </p>
       <div class="contact-info">
-        <div><i class="fas fa-phone-alt"></i> +506 6472 1064</div>
         <div><i class="fas fa-envelope"></i> ajacompany2025@gmail.com</div>
+        <div><i class="fas fa-phone-alt"></i> +506 6472 1064</div>
       </div>
     </section>
 
@@ -161,12 +161,12 @@ export default {
 .intro-section h1 {
   font-size: 3rem;
   color: #3b82f6;
-  margin-bottom: 20px;
+  margin-bottom: 5vh;
 }
 
 .intro-section p {
   max-width: 600px;
-  margin: 0 auto;
+  margin: 0 auto 60px;
   font-size: 1.1rem;
   color: #4b5563;
 }
@@ -183,21 +183,22 @@ export default {
 
 .about-section p {
   max-width: 600px;
-  margin: 0 auto 40px;
+  margin: 0 auto 12vh;
   color: #4b5563;
 }
 
 .cards-container {
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: 10vw;
   flex-wrap: wrap;
+  margin-bottom: 10vh;
 }
 
 .card {
   background-color: white;
   padding: 30px;
-  max-width: 350px;
+  max-width: 550px;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   text-align: left;
@@ -226,6 +227,7 @@ export default {
   justify-content: center;
   gap: 60px;
   flex-wrap: wrap;
+  margin-bottom: 60px;
 }
 
 .member {
@@ -256,24 +258,25 @@ export default {
 /* Contacto */
 .contact-section {
   background-color: white;
-  /* padding: 80px 20px; */
+  padding: 2vw 20px 2vw 5px;
 }
 
 .contact-section h2 {
   font-size: 2.5rem;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 
 .contact-section p {
-  max-width: 600px;
-  margin: 0 auto 30px;
+  max-width: 18vw;
+  margin: 0 auto 40px;
   color: #4b5563;
 }
 
 .contact-info {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  gap: 40px;
+  gap: 5px;
   flex-wrap: wrap;
   font-size: 1rem;
 }
