@@ -85,12 +85,25 @@
       </div>
     </section>
 
+
+    <ProjectsPortfolio/>
+
     <!-- FOOTER -->
     <footer class="footer">© 2025 AJA. All rights reserved.</footer>
   </div>
 </template>
 
-<script setup>
+
+
+<script >
+import ProjectsPortfolio from "../Home/MostrarProyectos.vue"
+
+
+export default {
+  components: {
+    ProjectsPortfolio
+  }
+}
 // No JS aún, solo HTML y estilos
 </script>
 
