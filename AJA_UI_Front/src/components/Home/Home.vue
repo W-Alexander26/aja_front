@@ -54,17 +54,17 @@
       <h2 class="scroll-animate">Nuestro Equipo</h2>
       <div class="team-grid">
         <div class="member scroll-animate-scale">
-          <div class="avatar">100 × 100</div>
+          <div class="avatar">A</div>
           <h4>Alexander Aguilar</h4>
           <p>Founder & co-CEO</p>
         </div>
         <div class="member scroll-animate-scale">
-          <div class="avatar">100 × 100</div>
+          <div class="avatar">J</div>
           <h4>Javier Vargas</h4>
           <p>CEO & Founder</p>
         </div>
         <div class="member scroll-animate-scale">
-          <div class="avatar">100 × 100</div>
+          <div class="avatar">A</div>
           <h4>Alessandro Gonzalez</h4>
           <p>Founder & co-CEO</p>
         </div>
@@ -88,6 +88,7 @@
       </div>
     </section>
 
+    <!-- <ProjectsPortfolio /> -->
 
     <!-- FOOTER -->
     <footer class="footer scroll-animate">
