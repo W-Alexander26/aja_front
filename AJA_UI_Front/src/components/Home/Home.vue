@@ -88,7 +88,6 @@
       </div>
     </section>
 
-    <!-- <ProjectsPortfolio /> -->
 
     <!-- FOOTER -->
     <footer class="footer scroll-animate">
