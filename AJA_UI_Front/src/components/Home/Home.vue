@@ -221,9 +221,16 @@ export default {
   top: 0;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+  /* 1️⃣  Fondo semitransparente */
+  background: rgba(255, 255, 255, 0.65); /* <‑‑ alfa ≈ 65 % */
+
+  /* 2️⃣  Desenfoque */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px); /* Safari / iOS */
+
+  /* 3️⃣  Detalles existentes */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;

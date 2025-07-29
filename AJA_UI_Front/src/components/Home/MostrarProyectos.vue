@@ -1,5 +1,7 @@
+<!-- ProjectsPortfolio.vue -->
 <template>
   <div id="app">
+    <!-- -------------- ENCABEZADO -------------- -->
     <div class="container">
       <div class="header">
         <h1 class="titulo-de-proyectoss">Nuestros Proyectos</h1>
@@ -8,73 +10,85 @@
         </p>
       </div>
 
+      <!-- -------------- GRID DE CARDS -------------- -->
       <div class="projects-grid">
-        <div v-for="project in projects" :key="project.id" class="project-card">
+        <div
+          v-for="project in projects"
+          :key="project.id"
+          class="project-card"
+          @mouseenter="startSlideShow(project)"
+          @mouseleave="stopSlideShow(project)"
+        >
+          <!-- Vista previa con “ventana” de navegador -->
           <div class="project-preview">
             <div class="browser-header">
               <div class="browser-dot"></div>
               <div class="browser-dot"></div>
               <div class="browser-dot"></div>
             </div>
-            <div class="preview-content">
-              <div class="preview-icon">📁</div>
-              <small>Vista previa</small>
-            </div>
+
+            <!-- Si tiene imágenes → slider; si no → placeholder 📁 -->
+            <template v-if="project.archivos?.length">
+              <img
+                class="preview-img"
+                :src="project.archivos[slideIndexes[project.id] ?? 0]"
+                :alt="`Vista previa de ${project.nombre}`"
+                @error="handleImageError"
+              />
+            </template>
+            <template v-else>
+              <div class="preview-content">
+                <div class="preview-icon">📁</div>
+                <small>Vista previa</small>
+              </div>
+            </template>
           </div>
 
+          <!-- Información -->
           <div class="project-info">
             <div class="project-header">
               <div>
                 <div class="project-title">{{ project.nombre }}</div>
-                <div class="project-type">{{ project.descripcion }}</div>
+                <div class="project-type">{{ project.tipo ?? "Proyecto" }}</div>
               </div>
               <span
                 class="status-badge"
-                :class="
-                  project.estado === true
-                    ? 'status-active'
-                    : 'status-maintenance'
-                "
+                :class="project.estado ? 'status-active' : 'status-maintenance'"
               >
-                {{ project.estado === true ? "Activo" : "Mantenimiento" }}
+                {{ project.estado ? "Activo" : "Mantenimiento" }}
               </span>
             </div>
 
             <p class="project-description">{{ project.descripcion }}</p>
 
-            <!-- <div class="project-tags">
-                            <span 
-                                v-for="tag in project.tags" 
-                                :key="tag" 
-                                class="tag"
-                            >
-                                {{ tag }}
-                            </span>
-                        </div> -->
-
             <div class="project-actions">
-              <a :href="project.link" target="_blank" class="btn btn-primary">
-                <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
+              <a
+                :href="project.link"
+                target="_blank"
+                class="btn btn-primary"
+                @click="emit('project-visit', project)"
+              >
+                <svg class="icon" viewBox="0 0 20 20">
                   <path
-                    fill-rule="evenodd"
+                    fill="currentColor"
                     d="M4.25 5.5a.75.75 0 00-.75.75v8.5c0 .414.336.75.75.75h8.5a.75.75 0 00.75-.75v-4a.75.75 0 011.5 0v4A2.25 2.25 0 0112.75 17h-8.5A2.25 2.25 0 012 14.75v-8.5A2.25 2.25 0 014.25 4h5a.75.75 0 010 1.5h-5z"
-                    clip-rule="evenodd"
                   />
                   <path
-                    fill-rule="evenodd"
+                    fill="currentColor"
                     d="M6.194 12.753a.75.75 0 001.06.053L16.5 4.44v2.81a.75.75 0 001.5 0v-4.5a.75.75 0 00-.75-.75h-4.5a.75.75 0 000 1.5h2.553l-9.056 8.194a.75.75 0 00-.053 1.06z"
-                    clip-rule="evenodd"
                   />
                 </svg>
                 Visitar Sitio
               </a>
               <button class="btn btn-secondary" @click="openPreview(project)">
-                <svg class="icon" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
+                <svg class="icon" viewBox="0 0 20 20">
                   <path
-                    fill-rule="evenodd"
-                    d="M.664 10.59a1.651 1.651 0 010-1.186A11.8 11.8 0 0110 2c4.257 0 7.893 2.66 9.336 6.41.147.381.147.804 0 1.186A11.8 11.8 0 0110 18c-4.257 0-7.893-2.66-9.336-6.41zM14 10a4 4 0 11-8 0 4 4 0 018 0z"
-                    clip-rule="evenodd"
+                    fill="currentColor"
+                    d="M10 12.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"
+                  />
+                  <path
+                    fill="currentColor"
+                    d="M.664 10.59a1.651 1.651 0 010-1.186A11.8 11.8 0 0110 2c4.257 0 7.893 2.66 9.336 6.41.147.381.147.804 0 1.186A11.8 11.8 0 0110 18c-4.257 0-7.893-2.66-9.336-6.41z"
                   />
                 </svg>
                 Vista Previa
@@ -85,7 +99,7 @@
       </div>
     </div>
 
-    <!-- Modal para vista previa con carrusel -->
+    <!-- -------------- MODAL CON CARRUSEL -------------- -->
     <Transition name="fade">
       <div v-if="showModal" class="modal" @click="closeModal">
         <div class="modal-content" @click.stop>
@@ -93,9 +107,10 @@
             <h3 class="modal-title">{{ selectedProject?.nombre }}</h3>
             <button class="close-btn" @click="closeModal">&times;</button>
           </div>
+
           <div class="modal-body">
             <div class="carousel-container" v-if="selectedProject">
-              <!-- Slides del carrusel -->
+              <!-- Slides -->
               <div
                 v-for="(image, index) in selectedProject.archivos"
                 :key="index"
@@ -105,13 +120,9 @@
                 <div class="carousel-wrapper">
                   <img class="carousel-image" :src="image" alt="imagen" />
                 </div>
-                <!-- <div class="image-info">
-                                    <h4>{{ image }}</h4>
-                                    <p>{{ image }}</p>
-                                </div> -->
               </div>
 
-              <!-- Controles del carrusel (solo si hay más de 1 imagen) -->
+              <!-- Controles -->
               <template v-if="selectedProject.archivos.length > 1">
                 <button class="carousel-nav carousel-prev" @click="prevSlide">
                   ‹
@@ -123,15 +134,14 @@
                 <div class="carousel-counter">
                   {{ currentSlide + 1 }} / {{ selectedProject.archivos.length }}
                 </div>
-
                 <div class="carousel-indicators">
                   <div
-                    v-for="(image, index) in selectedProject.images"
+                    v-for="(_, index) in selectedProject.archivos"
                     :key="index"
                     class="carousel-dot"
                     :class="{ active: index === currentSlide }"
                     @click="goToSlide(index)"
-                  ></div>
+                  />
                 </div>
               </template>
             </div>
@@ -142,206 +152,103 @@
   </div>
 </template>
 
-<script>
-import { ref, computed, onMounted, onUnmounted, watch } from "vue";
+<script setup>
+/* ----------------------------- IMPORTS ----------------------------- */
+import { ref, onMounted, onUnmounted, watch, getCurrentInstance } from "vue";
 import { obtener } from "../Services/service";
 import Cookies from "js-cookie";
 
-export default {
-  name: "ProjectsPortfolio",
-  data() {
-    return {
-      projects: "",
-    };
-  },
-  methods: {
-    async obtenerProyectos() {
-      const token = Cookies.get("UTC");
-      const url = import.meta.env.VITE_API_AUTH;
-      const proyectos = await obtener(url, "api/proyectos", "data", token);
-      this.projects = proyectos;
-      //   console.log(proyectos);
-    },
-  },
-  mounted() {
-    this.obtenerProyectos();
-  },
+/* --------------------------- ESTADO GLOBAL ------------------------- */
+const projects = ref([]);
+const showModal = ref(false);
+const selectedProject = ref(null);
+const currentSlide = ref(0);
 
-  emits: [
-    "project-visit",
-    "project-preview",
-    "refresh-projects",
-    "custom-action",
-  ],
+/* Índices y timers para preview por card */
+const slideIndexes = ref({}); // { [id]: idx }
+const slideTimers = {}; // { [id]: intervalId }
 
-  setup(props, { emit }) {
-    // Estado del modal y carrusel
-    const showModal = ref(false);
-    const selectedProject = ref(null);
-    const currentSlide = ref(0);
-
-    // Métodos para el modal
-    const openPreview = (project) => {
-    //   console.log("dldll");
-
-    //   console.log(project);
-
-      selectedProject.value = project;
-      currentSlide.value = 0;
-      showModal.value = true;
-      document.body.style.overflow = "hidden";
-      emit("project-preview", project);
-    };
-
-    const closeModal = () => {
-      showModal.value = false;
-      selectedProject.value = null;
-      currentSlide.value = 0;
-      document.body.style.overflow = "auto";
-    };
-
-    // Métodos del carrusel
-    const nextSlide = () => {
-      if (
-        selectedProject.value &&
-        currentSlide.value < selectedProject.value.archivos.length - 1
-      ) {
-        currentSlide.value++;
-      } else {
-        currentSlide.value = 0;
-      }
-    };
-
-    const prevSlide = () => {
-      if (selectedProject.value && currentSlide.value > 0) {
-        currentSlide.value--;
-      } else if (selectedProject.value) {
-        currentSlide.value = selectedProject.value.archivos.length - 1;
-      }
-    };
-
-    const goToSlide = (index) => {
-      currentSlide.value = index;
-    };
-
-    // Métodos utilitarios
-    const getStatusClass = (status) => {
-      const statusMap = {
-        active: "status-active",
-        maintenance: "status-maintenance",
-        disabled: "status-disabled",
-        draft: "status-draft",
-      };
-      return statusMap[status] || "status-default";
-    };
-
-    const getStatusText = (status) => {
-      const statusMap = {
-        active: "Activo",
-        maintenance: "Mantenimiento",
-        disabled: "Deshabilitado",
-        draft: "Borrador",
-      };
-      return statusMap[status] || status;
-    };
-
-    const isImageUrl = (src) => {
-      return (
-        typeof src === "string" &&
-        (src.startsWith("http") ||
-          src.startsWith("/") ||
-          src.startsWith("data:image"))
-      );
-    };
-
-    const handleImageError = (event) => {
-      console.warn("Error cargando imagen:", event.target.src);
-      event.target.style.display = "none";
-    };
-
-    // Handlers de eventos
-    const handleVisitClick = (project) => {
-      emit("project-visit", project);
-    };
-
-    const refreshProjects = () => {
-      emit("refresh-projects");
-    };
-
-    // Manejo de teclado
-    const handleKeydown = (event) => {
-      if (!showModal.value) return;
-
-      if (event.key === "Escape") {
-        closeModal();
-      } else if (
-        event.key === "ArrowLeft" &&
-        selectedProject.value &&
-        selectedProject.value.archivos.length > 1
-      ) {
-        prevSlide();
-      } else if (
-        event.key === "ArrowRight" &&
-        selectedProject.value &&
-        selectedProject.value.archivos.length > 1
-      ) {
-        nextSlide();
-      }
-    };
-
-    // Lifecycle hooks
-    onMounted(() => {
-      document.addEventListener("keydown", handleKeydown);
-    });
-
-    onUnmounted(() => {
-      document.removeEventListener("keydown", handleKeydown);
-      // Limpiar el overflow del body al desmontar
-      document.body.style.overflow = "auto";
-    });
-
-    // Watchers
-    watch(
-      () => props.projects,
-      (newProjects) => {
-        // Cerrar modal si el proyecto seleccionado ya no existe
-        if (
-          selectedProject.value &&
-          !newProjects.find((p) => p.id === selectedProject.value.id)
-        ) {
-          closeModal();
-        }
-      },
-      { deep: true }
-    );
-
-    return {
-      // Estado
-      showModal,
-      selectedProject,
-      currentSlide,
-
-      // Métodos del modal
-      openPreview,
-      closeModal,
-
-      // Métodos del carrusel
-      nextSlide,
-      prevSlide,
-      goToSlide,
-
-      // Métodos utilitarios
-      getStatusClass,
-      getStatusText,
-      isImageUrl,
-      handleImageError,
-
-      // Handlers
-      handleVisitClick,
-      refreshProjects,
-    };
-  },
+/* ------------------------------ MÉTODOS ---------------------------- */
+const obtenerProyectos = async () => {
+  const token = Cookies.get("UTC");
+  const urlAPI = import.meta.env.VITE_API_AUTH;
+  projects.value = await obtener(urlAPI, "api/proyectos", "data", token);
 };
+
+/* ---- Vista previa en cards ---- */
+function startSlideShow(project) {
+  if (!project.archivos || project.archivos.length < 2) return;
+  if (slideTimers[project.id]) return; // ya existe timer
+  slideIndexes.value[project.id] = 0;
+
+  slideTimers[project.id] = setInterval(() => {
+    const len = project.archivos.length;
+    slideIndexes.value[project.id] = (slideIndexes.value[project.id] + 1) % len;
+  }, 2500); // 2.5 s
+}
+
+function stopSlideShow(project) {
+  clearInterval(slideTimers[project.id]);
+  slideTimers[project.id] = null;
+  slideIndexes.value[project.id] = 0;
+}
+
+/* ---- Modal / Carousel ---- */
+function openPreview(project) {
+  selectedProject.value = project;
+  currentSlide.value = 0;
+  showModal.value = true;
+  document.body.style.overflow = "hidden";
+}
+function closeModal() {
+  showModal.value = false;
+  selectedProject.value = null;
+  currentSlide.value = 0;
+  document.body.style.overflow = "auto";
+}
+const nextSlide = () => {
+  if (!selectedProject.value) return;
+  currentSlide.value =
+    (currentSlide.value + 1) % selectedProject.value.archivos.length;
+};
+const prevSlide = () => {
+  if (!selectedProject.value) return;
+  const len = selectedProject.value.archivos.length;
+  currentSlide.value = (currentSlide.value - 1 + len) % len;
+};
+const goToSlide = (i) => (currentSlide.value = i);
+
+/* Img fallback */
+const handleImageError = (e) => (e.target.style.display = "none");
+
+/* --------------------------- CICLO DE VIDA ------------------------- */
+onMounted(() => {
+  obtenerProyectos();
+  document.addEventListener("keydown", keyHandler);
+});
+onUnmounted(() => {
+  Object.values(slideTimers).forEach(clearInterval);
+  document.removeEventListener("keydown", keyHandler);
+  document.body.style.overflow = "auto";
+});
+
+/* Keyboard control en modal */
+function keyHandler(e) {
+  if (!showModal.value) return;
+  if (e.key === "Escape") closeModal();
+  else if (e.key === "ArrowRight") nextSlide();
+  else if (e.key === "ArrowLeft") prevSlide();
+}
+
+/* Reiniciar previews si projects cambia */
+const { proxy } = getCurrentInstance();
+watch(
+  () => proxy.projects,
+  (projs) => projs?.forEach(stopSlideShow)
+);
+
+/* ----------------------------- EXPORT ------------------------------ */
+defineExpose({ openPreview }); // si necesitas abrir desde padre
 </script>
 
 <style scoped>
@@ -764,5 +671,16 @@ export default {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+/* ---------- tu hoja existente + extras para preview-img ---------- */
+.preview-img {
+  margin-top: 36px;
+  width: 100%;
+  height: calc(100% - 36px);
+  object-fit: cover; /* o contain */
+}
+.project-preview {
+  position: relative;
+  overflow: hidden;
 }
 </style>
