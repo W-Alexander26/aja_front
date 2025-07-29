@@ -146,10 +146,9 @@ export default {
  methods: {
     async obtenerProyectos(){
         const token = Cookies.get('UTC');
-        const url = import.meta.env.VITE_API_BACK;
+        const url = import.meta.env.VITE_API_AUTH;
         const proyectos = await obtener(url, 'proyectos', {}, token)
         this.projects = proyectos;
-        console.log(proyectos);
     
     },  
   },
@@ -412,7 +411,7 @@ export default {
             font-size: 2.5rem;
             margin-bottom: 8px;
         }
-        
+
 
         .project-info {
             padding: 24px;

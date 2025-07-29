@@ -24,6 +24,9 @@
       </p>
     </section>
 
+    <ProjectsPortfolio/>
+
+
     <!-- ACERCA DE -->
     <section class="about-section">
       <h2>Acerca de AJA</h2>
@@ -86,7 +89,6 @@
     </section>
 
 
-    <ProjectsPortfolio/>
 
     <!-- FOOTER -->
     <footer class="footer">© 2025 AJA. All rights reserved.</footer>
