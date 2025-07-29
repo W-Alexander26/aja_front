@@ -12,11 +12,12 @@
       />
 
       <label for="contrasena">Contraseña</label>
-      <input
+      <<input
         type="password"
         id="contrasena"
         placeholder="Ingrese contraseña"
         v-model="contrasena"
+        @keyup.enter="log"
       />
 
       <button @click="log">Ingresar</button>
@@ -46,22 +47,28 @@ async function log() {
       username: usuario.value,
       password: contrasena.value,
     };
-    console.log(payload);
 
     const response = await crear(
       import.meta.env.VITE_API_AUTH,
       "api/users/auth",
-      payload,
-      "token"
+      payload
     );
 
+    if (!response?.accessToken) {
+      Swal.fire("Error", "Respuesta inválida del servidor", "error");
+      return;
+    }
+
     Swal.fire("Éxito", "Sesión iniciada correctamente", "success");
-    // console.log(response);
     Cookies.set("token", response.accessToken);
     router.push("/admin");
   } catch (error) {
-    Swal.fire("Error", "Error al iniciar sesión", "error");
-    console.error("Error al iniciar sesión:", error);
+    const backendMsg =
+      error?.response?.data?.message ||
+      error?.message ||
+      "Error al iniciar sesión";
+    Swal.fire("Error", backendMsg, "error");
+    console.error("Error login:", error);
   }
 }
 </script>
