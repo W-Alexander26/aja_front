@@ -3,11 +3,7 @@
     <!-- NAVBAR -->
     <header class="navbar">
       <div class="logo">
-        <img
-          src="../../assets/Captura de pantalla 2025-07-20 194316.png"
-          alt="Logo AJA"
-          class="logo-img"
-        />
+        <img src="../../assets/aja_logo.png" alt="Logo AJA" class="logo-img" />
       </div>
       <a href="#contact" class="contact-button">
         <i class="fas fa-envelope"></i>
@@ -85,25 +81,21 @@
       </div>
     </section>
 
-
-    <ProjectsPortfolio/>
+    <ProjectsPortfolio />
 
     <!-- FOOTER -->
     <footer class="footer">© 2025 AJA. All rights reserved.</footer>
   </div>
 </template>
 
-
-
-<script >
-import ProjectsPortfolio from "../Home/MostrarProyectos.vue"
-
+<script>
+import ProjectsPortfolio from "../Home/MostrarProyectos.vue";
 
 export default {
   components: {
-    ProjectsPortfolio
-  }
-}
+    ProjectsPortfolio,
+  },
+};
 // No JS aún, solo HTML y estilos
 </script>
 

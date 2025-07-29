@@ -182,9 +182,9 @@ export default {
 
     // Métodos para el modal
     const openPreview = (project) => {
-      console.log("dldll");
+    //   console.log("dldll");
 
-      console.log(project);
+    //   console.log(project);
 
       selectedProject.value = project;
       currentSlide.value = 0;
