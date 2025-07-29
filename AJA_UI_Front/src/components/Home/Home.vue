@@ -20,6 +20,9 @@
       </p>
     </section>
 
+    <ProjectsPortfolio/>
+
+
     <!-- ACERCA DE -->
     <section class="about-section">
       <h2 class="scroll-animate">Acerca de AJA</h2>
@@ -85,7 +88,7 @@
       </div>
     </section>
 
-    <ProjectsPortfolio />
+    <!-- <ProjectsPortfolio /> -->
 
     <!-- FOOTER -->
     <footer class="footer scroll-animate">
