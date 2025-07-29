@@ -13,14 +13,6 @@
         <nav class="sidebar-nav">
           <button
             class="sidebar-item"
-            :class="{ active: activeComponent === 'dashboard' }"
-            @click="setActiveComponent('dashboard')"
-          >
-            <span class="sidebar-icon">🏠</span>
-            Dashboard
-          </button>
-          <button
-            class="sidebar-item"
             :class="{ active: activeComponent === 'proyectos' }"
             @click="setActiveComponent('proyectos')"
           >
@@ -65,10 +57,9 @@ import UsuariosComponent from "./components/UsuariosComponent.vue";
 import OtrosComponent from "./components/OtrosComponent.vue";
 
 const router = useRouter();
-const activeComponent = ref("dashboard");
+const activeComponent = ref("proyectos");
 
 const components = {
-  dashboard: DashboardComponent,
   proyectos: ProyectosComponent,
   usuarios: UsuariosComponent,
   otros: OtrosComponent,
