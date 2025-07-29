@@ -206,7 +206,7 @@ const subirArchivo = async (file) => {
   fd.append("file", file);
   try {
     const res = await consultar(API_URL, "api/proyectos/archivo", fd, token);
-    console.log(fd);
+    // console.log(fd);
     return res?.url || null;
   } catch (e) {
     console.error(e);
