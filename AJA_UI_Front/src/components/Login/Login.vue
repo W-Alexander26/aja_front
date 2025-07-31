@@ -12,7 +12,7 @@
       />
 
       <label for="contrasena">Contraseña</label>
-      <<input
+      <input
         type="password"
         id="contrasena"
         placeholder="Ingrese contraseña"

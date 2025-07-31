@@ -1,77 +1,77 @@
 <template>
   <div class="admin-container">
+    <!-- ==== NAVBAR SUPERIOR ==== -->
     <header class="admin-navbar">
       <div class="admin-logo">
         <img src="../../assets/aja_logo.png" alt="Logo AJA" class="logo-img" />
       </div>
+
       <button class="logout-button" @click="logout">Cerrar sesión</button>
     </header>
 
+    <!-- ==== LAYOUT PRINCIPAL ==== -->
     <div class="admin-layout">
-      <!-- Sidebar -->
+      <!-- ===== SIDEBAR ===== -->
       <aside class="sidebar">
         <nav class="sidebar-nav">
-          <button
+          <!-- Gestor / Dashboard -->
+          <router-link
+            to="/admin"
             class="sidebar-item"
-            :class="{ active: activeComponent === 'proyectos' }"
-            @click="setActiveComponent('proyectos')"
+            :class="{ active: route.name === 'Dashboard' }"
+          >
+            <span class="sidebar-icon">👜</span>
+            Gestor&nbsp;Proyectos
+          </router-link>
+
+          <!-- Listado de proyectos -->
+          <router-link
+            to="/admin/proyectos/crear"
+            class="sidebar-item"
+            :class="{ active: route.name === 'ProyectoCrear' }"
           >
             <span class="sidebar-icon">📁</span>
             Proyectos
-          </button>
-          <button
+          </router-link>
+
+          <!-- Usuarios -->
+          <router-link
+            to="/admin/usuarios"
             class="sidebar-item"
-            :class="{ active: activeComponent === 'usuarios' }"
-            @click="setActiveComponent('usuarios')"
+            :class="{ active: route.name === 'Usuarios' }"
           >
             <span class="sidebar-icon">👥</span>
             Usuarios
-          </button>
-          <button
+          </router-link>
+
+          <!-- Otros -->
+          <router-link
+            to="/admin/otros"
             class="sidebar-item"
-            :class="{ active: activeComponent === 'otros' }"
-            @click="setActiveComponent('otros')"
+            :class="{ active: route.name === 'Otros' }"
           >
             <span class="sidebar-icon">⚙️</span>
             Otros
-          </button>
+          </router-link>
         </nav>
       </aside>
 
-      <!-- Main Content -->
+      <!-- ===== CONTENIDO DINÁMICO ===== -->
       <main class="admin-main">
-        <component :is="currentComponent" @navigate="setActiveComponent" />
+        <!-- Los hijos del router se inyectan aquí sin perder el sidebar -->
+        <router-view />
       </main>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
 import Swal from "sweetalert2";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import Cookies from "js-cookie";
-import DashboardComponent from "./components/DashboardComponent.vue";
-import ProyectosComponent from "./components/ProyectosComponent.vue";
-import UsuariosComponent from "./components/UsuariosComponent.vue";
-import OtrosComponent from "./components/OtrosComponent.vue";
 
 const router = useRouter();
-const activeComponent = ref("proyectos");
-
-const components = {
-  proyectos: ProyectosComponent,
-  usuarios: UsuariosComponent,
-  otros: OtrosComponent,
-};
-
-const currentComponent = computed(() => {
-  return components[activeComponent.value];
-});
-
-function setActiveComponent(component) {
-  activeComponent.value = component;
-}
+const route = useRoute();
 
 function logout() {
   Swal.fire(
@@ -168,6 +168,7 @@ function logout() {
   transition: var(--transition);
   color: var(--text-primary);
   border-radius: 0.5rem;
+  text-decoration: none;
 }
 .sidebar-icon {
   font-size: 1.125rem;
