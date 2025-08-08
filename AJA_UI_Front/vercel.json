@@ -18,6 +18,7 @@
       "dest": "/index.html"
     }
   ],
+  
    "headers": [
     {
       "source": "/sitemap.xml",
