@@ -1,15 +1,64 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="es-CR">
   <head>
+    <!--  Codificación y responsive -->
     <meta charset="UTF-8" />
-    <link rel="icon" href="../src/assets/asg.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aja Servicios</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
+
+    <!--  Título y descripción -->
+    <title>AjaServicios | Páginas Web y Software en Costa Rica</title>
+    <meta name="description" content="AjaServicios desarrolla páginas web, tiendas online y software personalizado para negocios en Costa Rica. Soluciones digitales reales para emprendedores y pymes.">
+
+    <!--  Indexación -->
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.ajaservicios.com/home" />
+
+    <!--  Open Graph (Facebook, WhatsApp, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="AjaServicios - Páginas Web en Costa Rica" />
+    <meta property="og:description" content="Diseñamos páginas web rápidas, tiendas online y software a medida para negocios en Costa Rica." />
+    <meta property="og:url" content="https://www.ajaservicios.com/home" />
+    <meta property="og:image" content="https://www.ajaservicios.com/img/portada.webp" />
+
+    <!--  Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AjaServicios - Desarrollo Web y Software en Costa Rica" />
+    <meta name="twitter:description" content="Páginas web y soluciones digitales para negocios ticos. Aumentá tus ventas online.">
+    <meta name="twitter:image" content="https://www.ajaservicios.com/img/portada.webp" />
+
+    <!--  Schema - JSON-LD LocalBusiness -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "AjaServicios",
+      "image": "https://www.ajaservicios.com/img/portada.webp",
+      "url": "https://www.ajaservicios.com/home",
+      "telephone": "++506 6472 1064",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "San José",
+        "addressCountry": "CR"
+      },
+      "description": "Empresa tica especializada en desarrollo web, tiendas online y software a la medida.",
+      "sameAs": [
+        "https://www.facebook.com/ajaservicios",
+        "https://www.instagram.com/ajaservicios"
+      ]
+    }
+    </script>
+
+    <!--  Rendimiento: preconexión -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!--  Íconos y estilos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <!--  Favicon -->
+    <link rel="icon" type="image/png" href="./src/assets/asg.png" />
   </head>
+
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
