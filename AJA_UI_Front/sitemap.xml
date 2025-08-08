@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+<urlset 
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                      http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
+  <!-- Página principal -->
+  <url>
+    <loc>https://www.ajaservicios.com/home</loc>
+    <lastmod>2025-08-08</lastmod>
+  </url>
 
-<url>
-  <loc>https://www.ajaservicios.com/</loc>
-  <lastmod>2025-08-08T01:16:02+00:00</lastmod>
-</url>
+  <!-- Página pública raíz si querés dejarla -->
+  <url>
+    <loc>https://www.ajaservicios.com/</loc>
+    <lastmod>2025-08-08</lastmod>
+  </url>
 
+  <!-- Agregá aquí cualquier otra página PÚBLICA que exista -->
+  <!-- Por ejemplo:
+  <url>
+    <loc>https://www.ajaservicios.com/contacto</loc>
+    <lastmod>2025-08-08</lastmod>
+  </url>
+  -->
 
 </urlset>
