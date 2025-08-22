@@ -1,3 +1,4 @@
+import './token-init.js'; // Import token initialization script
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./rutas/rutas";

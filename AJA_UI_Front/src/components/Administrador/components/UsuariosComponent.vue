@@ -3,20 +3,11 @@
     <div class="controls">
       <div class="search-box">
         <span class="search-icon">🔍</span>
-        <input
-          type="text"
-          class="search-input"
-          placeholder="Buscar usuarios..."
-          v-model="searchTerm"
-          @input="filterUsers"
-        />
+        <input type="text" class="search-input" placeholder="Buscar usuarios..." v-model="searchTerm"
+          @input="filterUsers" />
       </div>
 
-      <select
-        class="filter-select"
-        v-model="statusFilter"
-        @change="filterUsers"
-      >
+      <select class="filter-select" v-model="statusFilter" @change="filterUsers">
         <option value="active">Activos</option>
         <option value="inactive">Inactivos</option>
         <option value="all">Todos</option>
@@ -40,12 +31,7 @@
     </div>
 
     <div v-else class="users-grid">
-      <div
-        v-for="user in filteredUsers"
-        :key="user.id"
-        class="user-card"
-        @click="openEditModal(user)"
-      >
+      <!-- <div v-for="user in filteredUsers" :key="user.id" class="user-card" @click="openEditModal(user)">
         <div class="user-avatar">
           {{ getInitials(user.username || user.name || "U") }}
         </div>
@@ -55,13 +41,29 @@
           </div>
           <div class="user-email">{{ user.email || "Sin email" }}</div>
         </div>
-        <span
-          class="user-status"
-          :class="`status-${user.activos ? 'active' : 'inactive'}`"
-        >
+        <span class="user-status" :class="`status-${user.activos ? 'active' : 'inactive'}`">
           {{ user.activos ? "Activo" : "Inactivo" }}
         </span>
-      </div>
+      </div> -->
+      <draggable v-model="filteredUsers" item-key="id" class="users-grid" @end="onDragEnd">
+        <template #item="{ element }">
+          <div class="user-card" @click="openEditModal(element)">
+            <div class="user-avatar">
+              {{ getInitials(element.username || element.name || "U") }}
+            </div>
+            <div class="user-info">
+              <div class="user-name">
+                {{ element.username || element.name || "Sin nombre" }}
+              </div>
+              <div class="user-email">{{ element.email || "Sin email" }}</div>
+            </div>
+            <span class="user-status" :class="`status-${element.activos ? 'active' : 'inactive'}`">
+              {{ element.activos ? "Activo" : "Inactivo" }}
+            </span>
+          </div>
+        </template>
+      </draggable>
+
     </div>
 
     <div v-if="showModal" class="modal" @click="closeModal">
@@ -76,35 +78,54 @@
         <form @submit.prevent="editingUser ? updateUser() : createUser()">
           <div class="form-group">
             <label class="form-label" for="username">Nombre de Usuario</label>
-            <input
-              type="text"
-              class="form-input"
-              id="username"
-              v-model="formData.username"
-              required
-            />
+            <input type="text" class="form-input" id="username" v-model="formData.username" required />
           </div>
 
           <div class="form-group">
             <label class="form-label" for="email">Correo Electrónico</label>
-            <input
-              type="email"
-              class="form-input"
-              id="email"
-              v-model="formData.email"
-              required
-            />
+            <input type="email" class="form-input" id="email" v-model="formData.email" required />
           </div>
 
           <div class="form-group">
             <label class="form-label" for="password">Contraseña</label>
-            <input
-              type="password"
-              class="form-input"
-              id="password"
-              v-model="formData.password"
-              :required="!editingUser"
-            />
+            <input type="password" class="form-input" id="password" v-model="formData.password"
+              :required="!editingUser" />
+          </div>
+
+          <!-- dentro del <form> de tu modal -->
+          <div class="form-group">
+            <label class="form-label" for="displayOrder">Orden de Display</label>
+            <input type="number" class="form-input" id="displayOrder" v-model.number="formData.displayOrder" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="skills">Skills (separadas por coma)</label>
+            <input type="text" class="form-input" id="skills" v-model="formData.skillsInput"
+              placeholder="Ej: aws,react,nest" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="mostrar">Mostrar en listado</label>
+            <select class="form-input" id="mostrar" v-model="formData.mostrar">
+              <option :value="true">Sí</option>
+              <option :value="false">No</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="siglas">Siglas</label>
+            <input type="text" maxlength="4" class="form-input" id="siglas" v-model="formData.siglas" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="puestos">Puestos</label>
+            <input type="text" maxlength="60" class="form-input" id="puestos" v-model="formData.puestos" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="img">Imagen (URL)</label>
+            <input type="text" maxlength="200" class="form-input" id="img" v-model="formData.img"
+              placeholder="https://example.com/foto.png" />
           </div>
 
           <div class="form-group" v-if="editingUser">
@@ -126,8 +147,8 @@
                     ? "Actualizando..."
                     : "Creando..."
                   : editingUser
-                  ? "Actualizar Usuario"
-                  : "Crear Usuario"
+                    ? "Actualizar Usuario"
+                    : "Crear Usuario"
               }}
             </button>
           </div>
@@ -141,10 +162,35 @@
 import { ref, reactive, onMounted } from "vue";
 import Cookies from "js-cookie";
 import { actualizar, crear, obtener } from "@/components/Services/service";
+import draggable from "vuedraggable";
 
 export default {
   name: "UsersMenu",
+  components: { draggable },
   setup() {
+    const onDragEnd = async (evt) => {
+      // recalcula en memoria
+      filteredUsers.value.forEach((u, index) => {
+        u.displayOrder = index + 1; // orden 1-based
+      });
+
+      const movedUser = filteredUsers.value[evt.newIndex];
+
+      try {
+        
+        await actualizar(
+          API_BASE_URL,
+          "api/users/update",
+          { id: movedUser.id, displayOrder: movedUser.displayOrder },
+          token
+        );
+      } catch (err) {
+        console.error("Error reordenando:", err);
+        await refreshUsers();
+      }
+    };
+
+
     const API_BASE_URL = import.meta.env.VITE_API_AUTH;
     const token = Cookies.get("token") || null;
 
@@ -163,7 +209,14 @@ export default {
       username: "",
       email: "",
       password: "",
-      activos: true,
+      activos: "",
+      displayOrder: "null",
+      skills: [],
+      skillsInput: "",
+      mostrar: "",
+      siglas: "",
+      puestos: "",
+      img: ""
     });
 
     const openCreateModal = () => {
@@ -173,6 +226,13 @@ export default {
       formData.email = "";
       formData.password = "";
       formData.activos = true;
+      formData.displayOrder = null;
+      formData.skillsInput = "";
+      formData.mostrar = true;
+      formData.siglas = "";
+      formData.puestos = "";
+      formData.img = "";
+
       showModal.value = true;
     };
 
@@ -183,6 +243,14 @@ export default {
       formData.email = user.email;
       formData.password = "";
       formData.activos = user.activos;
+      formData.displayOrder = user.displayOrder || null;
+      formData.skillsInput = user.skills
+        ? user.skills.join(", ")
+        : "";
+      formData.mostrar = user.mostrar !== undefined ? user.mostrar : true;
+      formData.siglas = user.siglas || "";
+      formData.puestos = user.puestos || "";
+      formData.img = user.img || "";
       showModal.value = true;
     };
 
@@ -196,8 +264,23 @@ export default {
           username: formData.username,
           email: formData.email,
           activos: formData.activos,
+          displayOrder: formData.displayOrder,
+          skills: formData.skillsInput
+            ? formData.skillsInput.split(",").map((s) => s.trim()).filter(Boolean)
+            : [],
+          mostrar: formData.mostrar,
+          siglas: formData.siglas,
+          puestos: formData.puestos,
+          img: formData.img,
         };
+        if (formData.skillsInput) {
+          payload.skills = formData.skillsInput
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean);
+        }
         if (formData.password) payload.password = formData.password;
+
 
         const response = await actualizar(
           API_BASE_URL,
@@ -205,6 +288,7 @@ export default {
           payload,
           token
         );
+        await refreshUsers();
 
         let updatedUser = response.user || response || payload;
 
@@ -234,12 +318,8 @@ export default {
         loading.value = true;
         if (!token) return console.error("Token no encontrado");
 
-        const response = await obtener(
-          API_BASE_URL,
-          "api/users",
-          "data",
-          token
-        );
+        const response = await obtener(API_BASE_URL, "api/users", "data", token);
+
 
         allUsers.value = Array.isArray(response)
           ? response
@@ -251,6 +331,10 @@ export default {
       } finally {
         loading.value = false;
       }
+    };
+
+    const refreshUsers = async () => {
+      await loadUsers();
     };
 
     const filterUsers = () => {
@@ -269,6 +353,7 @@ export default {
             (u.email || "").toLowerCase().includes(search)
         );
       }
+
       filteredUsers.value = list;
     };
 
@@ -294,10 +379,15 @@ export default {
         creating.value = true;
 
         if (!token) {
-          alert("Token no encontrado");
           return;
         }
 
+        if (formData.skillsInput) {
+          payload.skills = formData.skillsInput
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean);
+        }
         const newUserData = {
           username: formData.username,
           email: formData.email,
@@ -310,6 +400,7 @@ export default {
           newUserData,
           token
         );
+        await refreshUsers();
 
         const userToAdd = createdUser.user ? createdUser.user : createdUser;
         if (userToAdd.activos === undefined) {
@@ -322,7 +413,6 @@ export default {
         closeModal();
       } catch (err) {
         console.error("Error creando usuario:", err);
-        alert("❌ Hubo un error al crear el usuario");
       } finally {
         creating.value = false;
       }
@@ -348,6 +438,8 @@ export default {
       closeModal,
       createUser,
       updateUser,
+      onDragEnd,
+      draggable
     };
   },
 };
@@ -361,7 +453,8 @@ export default {
 }
 
 .container {
-  max-width: 100rem; /* 1200px */
+  max-width: 100rem;
+  /* 1200px */
   margin: 0 auto;
   min-height: 100%;
   padding: 2rem;
@@ -378,14 +471,16 @@ export default {
 .search-box {
   position: relative;
   flex: 1;
-  max-width: 25rem; /* 400px */
+  max-width: 25rem;
+  /* 400px */
 }
 
 .search-input {
   width: 100%;
   padding: 0.75rem 1rem 0.75rem 2.5rem;
   border: none;
-  border-radius: 0.5rem; /* 8px */
+  border-radius: 0.5rem;
+  /* 8px */
   font-size: 0.875rem;
   background: #f5f5f5;
   transition: all 0.2s ease;
@@ -432,7 +527,8 @@ export default {
 
 .btn-primary:hover:not(:disabled) {
   background: #333;
-  transform: translateY(-0.0625rem); /* 1px */
+  transform: translateY(-0.0625rem);
+  /* 1px */
 }
 
 .btn-primary:disabled {
@@ -451,13 +547,15 @@ export default {
 
 .users-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr)); /* 320px */
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  /* 320px */
   gap: 1rem;
 }
 
 .user-card {
   background: #fafafa;
-  border-radius: 0.75rem; /* 12px */
+  border-radius: 0.75rem;
+  /* 12px */
   padding: 1.5rem;
   display: flex;
   align-items: center;
@@ -468,11 +566,13 @@ export default {
 
 .user-card:hover {
   background: #f5f5f5;
-  transform: translateY(-0.125rem); /* 2px */
+  transform: translateY(-0.125rem);
+  /* 2px */
 }
 
 .user-avatar {
-  width: 3rem; /* 48px */
+  width: 3rem;
+  /* 48px */
   height: 3rem;
   border-radius: 50%;
   background: #3b82f6;
@@ -537,7 +637,8 @@ export default {
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(0.25rem); /* 4px */
+  backdrop-filter: blur(0.25rem);
+  /* 4px */
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -547,11 +648,14 @@ export default {
 
 .modal-content {
   width: 100%;
-  max-width: 30rem; /* 480px */
+  max-width: 30rem;
+  /* 480px */
   background: white;
-  border-radius: 1rem; /* 16px */
+  border-radius: 1rem;
+  /* 16px */
   padding: 2rem;
-  box-shadow: 0 1.25rem 2.5rem rgba(0, 0, 0, 0.1); /* 20px 40px */
+  box-shadow: 0 1.25rem 2.5rem rgba(0, 0, 0, 0.1);
+  /* 20px 40px */
   animation: modalFadeIn 0.2s ease;
 }
 
@@ -560,6 +664,7 @@ export default {
     opacity: 0;
     transform: scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
@@ -580,7 +685,8 @@ export default {
 }
 
 .close-btn {
-  width: 2rem; /* 32px */
+  width: 2rem;
+  /* 32px */
   height: 2rem;
   border: none;
   background: #f5f5f5;
@@ -640,9 +746,11 @@ export default {
 }
 
 .spinner {
-  width: 2rem; /* 32px */
+  width: 2rem;
+  /* 32px */
   height: 2rem;
-  border: 0.125rem solid #f5f5f5; /* 2px */
+  border: 0.125rem solid #f5f5f5;
+  /* 2px */
   border-top: 0.125rem solid #333;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
@@ -653,6 +761,7 @@ export default {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -696,6 +805,7 @@ export default {
 }
 
 @media (max-width: 48rem) {
+
   /* 768px */
   .container {
     padding: 1rem;

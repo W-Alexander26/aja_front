@@ -49,7 +49,7 @@
     </section>
 
     <!-- EQUIPO -->
-    <section class="team-section">
+    <!-- <section class="team-section">
       <h2 class="scroll-animate">Nuestro Equipo</h2>
       <div class="team-grid">
         <div class="member scroll-animate-scale">
@@ -68,8 +68,10 @@
           <p>Founder & co-CEO</p>
         </div>
       </div>
-    </section>
+    </section> -->
 
+
+    <TeamSection />
     <!-- CONTACTO -->
     <section class="contact-section" id="contact">
       <!-- FOOTER BONITO -->
@@ -140,10 +142,11 @@
 
 <script>
 import ProjectsPortfolio from "../Home/MostrarProyectos.vue";
-
+import TeamSection from "@/components/Home/TeamSection.vue"
 export default {
   components: {
     ProjectsPortfolio,
+    TeamSection,
   },
   mounted() {
     this.initScrollAnimations();
